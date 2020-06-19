@@ -16,12 +16,8 @@ app.use(express.static("public"));
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
 
+//HTML Routes specified here to stats page and the add exercise page.
 
-app.post("/submit",({body},res)=>{
-  console.log(req.body);
-  db.Workout.insert(body)
-
-});
 
 
 app.get("/exercise",(req,res)=>{
@@ -32,12 +28,48 @@ app.get("/stats",(req,res)=>{
 });
 
 
+//API routes
+
+app.post("/api/workouts",({body},res)=>{
+  console.log("post route");
+  //db.Workout.collection.deleteMany({});
+
+});
+
+
+app.put("/api/workouts/:id",({body},res)=>{
+  console.log(body)
+  db.Workout.collection.insertOne(
+
+    { 
+      day: Date.now(),
+      body:body
+    }
+  )
+});
+
+/*
+  app.get("/api/workouts/range",(req,res)=>{
+      db.Workout.collection.find({},(err,data)=>{
+          if (error) {
+            res.send(error);
+          } else {
+            res.json(data);
+          }
+      })
+  })
+*/
+
+
+
+
 
 app.get("/api/workouts",(req,res)=>{
-  db.Workout.find({},(error,data)=>{
+  db.Workout.collection.find({},(error,data)=>{
     if (error) {
       res.send(error);
     } else {
+      console.log("hello");
       res.json(data);
     }
   })
