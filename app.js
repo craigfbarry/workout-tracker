@@ -45,10 +45,14 @@ app.put("/api/workouts/:id",({body},res)=>{
       day: Date.now(),
       body:body
     }
-  )
+  ).then(data =>{
+    res.json(data);
+  }).catch(err => {
+    res.json(err);
+  })
 });
 
-/*
+
   app.get("/api/workouts/range",(req,res)=>{
       db.Workout.collection.find({},(err,data)=>{
           if (error) {
@@ -58,7 +62,7 @@ app.put("/api/workouts/:id",({body},res)=>{
           }
       })
   })
-*/
+
 
 
 
@@ -69,7 +73,7 @@ app.get("/api/workouts",(req,res)=>{
     if (error) {
       res.send(error);
     } else {
-      console.log("hello");
+      console.log("come here for data");
       res.json(data);
     }
   })
