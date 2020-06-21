@@ -7,14 +7,18 @@ const WorkoutSchema = new Schema({
         type: Date,
         default: Date.now
         },
-    exercises: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "Exercise"
-        }
-    ]
+    //exercises:[{
+    //    type:String,
+    //    name:String,
+    //    duration:Number,
+    //    distance:Number,
+    //    weight:Number,
+    //    reps:Number,
+    //    sets:Number
+    //}]
+
 });
 
 
-const Workout= mongoose.model("Workout",WorkoutSchema);
+const Workout = mongoose.model("Workout",WorkoutSchema);
 module.exports = Workout;

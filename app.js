@@ -14,8 +14,8 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
-
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.set('useFindAndModify', false);
 //HTML Routes specified here to stats page and the add exercise page.
 
 app.get("/exercise",(req,res)=>{
@@ -30,7 +30,7 @@ app.get("/stats",(req,res)=>{
 
 app.post("/api/workouts",({body},res)=>{
   console.log("post route");
-  db.Workout.collection.insertOne(
+  db.Workout.create(
     {
       day: Date.now(),
     }).then(data =>{
@@ -41,20 +41,19 @@ app.post("/api/workouts",({body},res)=>{
 
 });
 
-//May require changing
+/*
 app.put("/api/workouts/:id",({body},res)=>{
   console.log(body)
-  db.Workout.collection.insertOne(
-    { 
-      body:body
-    }
-  ).then(data =>{
-    res.json(data);
+
+  db.Exercise.create(body)
+    .then(({_id}) => db.Workout.findOneAndUpdate({},{ $push: { exercises: _id } }, { new: true }))  
+    .then(data =>{
+      res.json(data);
   }).catch(err => {
-    res.json(err);
+      res.json(err);
   })
 });
-
+*/
 
   app.get("/api/workouts/range",(req,res)=>{
       db.Workout.find({},(err,data)=>{
@@ -70,11 +69,12 @@ app.put("/api/workouts/:id",({body},res)=>{
 
 
 app.get("/api/workouts",(req,res)=>{
-  db.Workout.collection.find({},(error,data)=>{
+  db.Workout.find({},(error,data)=>{
     if (error) {
       res.send(error);
     } else {
       console.log("come here for data");
+      console.log(data);
       res.json(data);
     }
   })
