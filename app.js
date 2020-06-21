@@ -32,7 +32,7 @@ app.get("/stats",(req,res)=>{
 // API routes for connecting to the MongoDB workouts database
 //******************************************************************** */
 
-
+//POST API route for adding a new workout to the database.
 
 app.post("/api/workouts",(req,res)=>{
   console.log("post route");
@@ -48,6 +48,7 @@ app.post("/api/workouts",(req,res)=>{
 
 });
 
+//Update route for updating exercises to the workout in progress.
 
 app.put("/api/workouts/:id",(req,res)=>{
   console.log(req.params.id)
@@ -56,8 +57,9 @@ app.put("/api/workouts/:id",(req,res)=>{
       {
         _id: req.params.id
       },
-      {$push:{ exercises:req.body }}
-      
+      {
+        $push:{ exercises:req.body }
+      }      
     )
     .then(data =>{
       res.json(data);
@@ -67,29 +69,37 @@ app.put("/api/workouts/:id",(req,res)=>{
 });
 
 
-
-
-app.get("/api/workouts/range",(req,res)=>{
-    db.Workout.find({},(err,data)=>{
-        if (err) {
-          res.send(err);
-        } else {
-          res.json(data);
-        }
-    })
-})
+// GET API route to return all workout data 
 
 app.get("/api/workouts",(req,res)=>{
   db.Workout.find({},(error,data)=>{
     if (error) {
       res.send(error);
-    } else {
+    } else {      
       console.log(data);
       res.json(data);
     }
   })
 });
 
+
+
+
+
+
+
+
+// GET API route to return all workout data which is then sorted in the stats page.
+
+app.get("/api/workouts/range",(req,res)=>{
+  db.Workout.find({},(err,data)=>{
+      if (err) {
+        res.send(err);
+      } else {
+        res.json(data);
+      }
+  })
+})
 
 
 
