@@ -84,11 +84,6 @@ app.get("/api/workouts",(req,res)=>{
 
 
 
-
-
-
-
-
 // GET API route to return all workout data which is then sorted in the stats page.
 
 app.get("/api/workouts/range",(req,res)=>{
