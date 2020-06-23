@@ -8,8 +8,10 @@ fetch("/api/workouts/range")
     populateChart(data);
   });
 
-
+//API method called here to get data from database.
 API.getWorkoutsInRange()
+
+//Pie chart set up.
 
   function generatePalette() {
     const arr = [
@@ -33,6 +35,9 @@ API.getWorkoutsInRange()
 
   return arr;
   }
+
+//Function to populate chart data, calling the various functions to provide calculations  
+
 function populateChart(data) {
   let durations = duration(data);
   let pounds = calculateTotalWeight(data);
@@ -106,7 +111,7 @@ function populateChart(data) {
       ],
       datasets: [
         {
-          label: "Pounds",
+          label: "Kilos",
           data: pounds,
           backgroundColor: [
             "rgba(255, 99, 132, 0.2)",
@@ -131,7 +136,7 @@ function populateChart(data) {
     options: {
       title: {
         display: true,
-        text: "Pounds Lifted"
+        text: "Kilos Lifted"
       },
       scales: {
         yAxes: [
@@ -185,6 +190,8 @@ function populateChart(data) {
     }
   });
 }
+
+//Functions for stats calculations
 
 function duration(data) {
   let durations = [];

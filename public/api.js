@@ -1,3 +1,5 @@
+//Here are the methods created and the corresponding API calls are set up.
+
 const API = {
   async getLastWorkout() {
     let res;

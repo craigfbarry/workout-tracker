@@ -1,19 +1,26 @@
+//Required Node packages
 const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const path = require("path");
 
+//Set up PORT to environment variable or PORT 3000 locally
 const PORT = process.env.PORT || 3000;
+
+//Require the database models
 const db = require("./models");
 
 const app = express();
 app.use(logger("dev"));
 
+//Express middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+//Define the public facing code
 app.use(express.static("public"));
 
+//Make the database connection using Mongoose ODM
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set('useFindAndModify', false);
 
@@ -39,7 +46,6 @@ app.post("/api/workouts",(req,res)=>{
   db.Workout.create(
     {
       day: new Date()
-      //day: Date.now()
     }).then(data =>{
       res.json(data);
     }).catch(err => {
@@ -83,7 +89,6 @@ app.get("/api/workouts",(req,res)=>{
 });
 
 
-
 // GET API route to return all workout data which is then sorted in the stats page.
 
 app.get("/api/workouts/range",(req,res)=>{
@@ -96,7 +101,7 @@ app.get("/api/workouts/range",(req,res)=>{
   })
 })
 
-
+//Turn listening on for PORT
 
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}!`);
