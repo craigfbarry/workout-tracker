@@ -77,8 +77,10 @@ app.put("/api/workouts/:id",(req,res)=>{
 
 // GET API route to return all workout data 
 
+//db.Workout.aggregate([{$project:{totalDuration:{$sum:"$exercises.duration"}}}])
+
 app.get("/api/workouts",(req,res)=>{
-  db.Workout.find({},(error,data)=>{
+  db.Workout.find({}).exec((error,data)=>{
     if (error) {
       res.send(error);
     } else {      
@@ -86,6 +88,9 @@ app.get("/api/workouts",(req,res)=>{
       res.json(data);
     }
   })
+
+
+  
 });
 
 
